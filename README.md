@@ -12,4 +12,6 @@ make_run.bat <JAVA8_HOME> <JAVA9_HOME> <JAVA10_HOME>
 ```
 
 For example in windows using Eg:
+```
 make_run.bat C:\Tools\Java\jdk1.8.0_152 C:\Tools\Java\jdk-9.0.4 C:\Tools\Java\jdk-10.0.2
+```
