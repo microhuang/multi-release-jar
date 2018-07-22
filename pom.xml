@@ -1,0 +1,117 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.srini.example</groupId>
+	<artifactId>MultiReleaseExample</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>multi-release-jar</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java9.sourceDirectory>${project.basedir}/src/main/java9</java9.sourceDirectory>
+		<java9.build.outputDirectory>${project.build.directory}/classes-java9</java9.build.outputDirectory>
+		
+		<java10.sourceDirectory>${project.basedir}/src/main/java10</java10.sourceDirectory>
+		<java10.build.outputDirectory>${project.build.directory}/classes-java10</java10.build.outputDirectory>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>compile-java9</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<mkdir dir="${java9.build.outputDirectory}" />
+								<javac srcdir="${java9.sourceDirectory}"
+									destdir="${java9.build.outputDirectory}"
+									classpath="${project.build.outputDirectory}"
+									includeantruntime="false" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile-java10</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<mkdir dir="${java10.build.outputDirectory}" />
+								<javac srcdir="${java10.sourceDirectory}"
+									destdir="${java10.build.outputDirectory}"
+									classpath="${project.build.outputDirectory}"
+									includeantruntime="false" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-resources-java9</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}/META-INF/versions/9</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${java9.build.outputDirectory}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-resources-java10</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}/META-INF/versions/10</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${java10.build.outputDirectory}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Multi-Release>true</Multi-Release>
+							<Main-Class>com.example.Main</Main-Class>
+						</manifestEntries>
+					</archive>
+					<finalName>multi-release-jar-demo</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+</project>
