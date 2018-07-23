@@ -4,7 +4,7 @@ ECHO[
 ECHO *********************************************
 ECHO[
 ECHO USAGE:
-ECHO run ^<JAVA8_HOME^> ^<JAVA9_HOME^> ^<JAVA10_HOME^>
+ECHO make_run.bat ^<JAVA8_HOME^> ^<JAVA9_HOME^> ^<JAVA10_HOME^>
 ECHO[
 ECHO *********************************************
 ECHO[
